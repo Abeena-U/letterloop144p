@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Next Page</title>
+</head>
+<body>
+    <h2>Why do you like the letterloop, <span id="userNamePlaceholder"></span>?</h2>
+    <form id="answerForm">
+        <textarea id="answer" placeholder="Enter your answer"></textarea>
+        <button type="submit" id="saveAndMove">Save Answer and Move to Next Page</button>
+    </form>
+
+    <!-- Display previous answers with the user's name for this question -->
+    <h3>Previous Answers:</h3>
+    <ul id="previousAnswers"></ul>
+
+    <!-- Password input and button to clear previous answers for this question -->
+    <label for="password">Enter Password to Clear Answers: </label>
+    <input type="password" id="password" />
+    <button id="clearAnswers">Clear Answers</button>
+
+    <script>
+        const currentQuestion = "Why do you like the letterloop"; // Unique question identifier
+
+        
+        // Function to get the username from local storage
+        function getUsernameFromLocalStorage() {
+            return localStorage.getItem("username") || "User";
+        }
+
+        // Function to get the answers from local storage
+        function getAnswersFromLocalStorage() {
+            const answers = JSON.parse(localStorage.getItem(currentQuestion)) || [];
+            return answers;
+        }
+
+        // Set the user's name in the placeholder
+        const userNamePlaceholder = document.getElementById("userNamePlaceholder");
+        const username = localStorage.getItem("username") || "User"; // Retrieve username from localStorage
+        userNamePlaceholder.textContent = username;
+
+        // Set the answers in the previous answers list
+        const previousAnswersList = document.getElementById("previousAnswers");
+        const answers = getAnswersFromLocalStorage();
+        answers.forEach(function (answer) {
+            const answerItem = document.createElement("li");
+            answerItem.textContent = answer;
+            previousAnswersList.appendChild(answerItem);
+        });
+
+        // Save the answer and move to the next page
+        document.getElementById("answerForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const answer = document.getElementById("answer").value;
+            if (answer) {
+                // Retrieve previous answers for this question from localStorage
+                const storedAnswers = getAnswersFromLocalStorage();
+                const userName = getUsernameFromLocalStorage();
+                storedAnswers.push(`${userName} said - ${answer}`);
+
+                // Store the updated answers for this question in localStorage
+                localStorage.setItem(currentQuestion, JSON.stringify(storedAnswers));
+
+                // Clear the input field
+                document.getElementById("answer").value = '';
+
+                // Update the list of previous answers for this question
+                const answerItem = document.createElement("li");
+                answerItem.textContent = `${userName} said - ${answer}`;
+                previousAnswersList.appendChild(answerItem);
+
+                // Redirect to the next page
+                window.location.href = "next_page.html";
+            }
+        });
+
+        // Function to clear previous answers for this question with a password
+        document.getElementById("clearAnswers").addEventListener("click", function () {
+            // Check if the entered password is correct
+            const password = document.getElementById("password").value;
+            if (password === "njanadipoli") {
+                // Clear answers for this question in localStorage
+                localStorage.removeItem(currentQuestion);
+
+                // Clear the displayed answers
+                previousAnswersList.innerHTML = '';
+            } else {
+                alert("Incorrect password. Access denied.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Newsletter</title>
+    <style>
+        /* Reset some default styles */
+        body, h1, p {
+            margin: 0;
+            padding: 0;
+        }
+        /* Set a background color and font styles */
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+        /* Container for the whole newsletter */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+        /* Header styles */
+        .header {
+            text-align: center;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+        }
+        /* Content styles */
+        .content {
+            padding: 20px;
+        }
+        /* Footer styles */
+        .footer {
+            text-align: center;
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+        }
+        /* Button styles */
+        .btn {
+            display: block;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>My Newsletter</h1>
+        </div>
+        <div class="content">
+            <h2>Welcome to our newsletter!</h2>
+            <p>
+                Hello, <span id="userName"></span>! Welcome to Letterloop, your weekly newsletter for creative writing and storytelling. In this issue, we'll show you how to write a captivating opening sentence, share some tips on how to create memorable characters, and challenge you to write a short story based on a random prompt. Plus, we'll feature some of the best stories from our community of writers. Are you ready to unleash your imagination?
+            </p>
+            <form action="question.html">
+                <label for="name">Your Name:</label>
+                <input type="text" id="name" name="name" required>
+                <div class="btn">
+                    <button type="submit">Next Page</button>
+                </div>
+            </form>
+        </div>
+        <div class="footer">
+            <p>&copy; Letterloop is here</p>
+        </div>
+    </div>
+
+    <script>
+        const nameInput = document.getElementById("name");
+        const userName = document.getElementById("userName");
+    
+        nameInput.addEventListener("input", function() {
+            userName.textContent = nameInput.value;
+            // Store the username in localStorage
+            localStorage.setItem("username", nameInput.value);
+        });
+    </script>
+    
+</body>
+</html>
